@@ -4,32 +4,32 @@ import { BookOpen, MonitorPlay, ShieldCheck, Sparkles, ArrowRight } from 'lucide
 const courses = [
   {
     id: 'anglais',
-    title: 'Anglais pour Professionnels',
-    description: 'Boostez votre carrière avec une maîtrise pratique de l\'anglais. Apprenez le vocabulaire des affaires, la rédaction d\'emails et gagnez en confiance pour vos réunions et entretiens internationaux.',
+    title: 'Anglais',
+    description: "Maîtrisez l'anglais pour le business.",
     image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=800',
     icon: BookOpen,
     link: '#', // TODO: Paste Google Classroom link here
   },
   {
     id: 'canva',
-    title: 'Maîtriser Canva & Conception graphique',
-    description: 'Transformez vos idées en visuels professionnels. Apprenez à créer des logos, des présentations et des contenus réseaux sociaux percutants, même sans aucune expérience préalable en design.',
+    title: 'Canva & Design',
+    description: "Créez des visuels professionnels.",
     image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800',
     icon: MonitorPlay,
     link: '#', // TODO: Paste Google Classroom link here
   },
   {
     id: 'ia',
-    title: 'Initiation à l\'Intelligence Artificielle',
-    description: 'Simplifiez votre quotidien grâce à l\'IA. Découvrez comment utiliser des outils comme ChatGPT et Gemini pour automatiser vos tâches, rédiger du contenu et booster votre productivité.',
+    title: 'Intelligence Artificielle',
+    description: "Boostez votre productivité avec l'IA.",
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800',
     icon: Sparkles,
     link: '#', // TODO: Paste Google Classroom link here
   },
   {
     id: 'securite',
-    title: 'Sécurité Internet & Sensibilisation',
-    description: 'Naviguez en toute confiance. Apprenez à protéger vos comptes, à identifier les arnaques en ligne et à sécuriser vos données personnelles et bancaires.',
+    title: 'Sécurité Internet',
+    description: "Protégez vos données privées.",
     image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
     icon: ShieldCheck,
     link: '#', // TODO: Paste Google Classroom link here
@@ -38,7 +38,7 @@ const courses = [
 
 const AntAcademy: React.FC = () => {
   return (
-    <section id="antacademy" className="py-20 bg-[#020617]">
+    <section id="antacademy" className="py-20 bg-[#0a0a0a]">
       {/* Hero Section */}
       <div className="container mx-auto px-6 mb-16 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
