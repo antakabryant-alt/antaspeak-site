@@ -74,8 +74,7 @@ const Home: React.FC = () => {
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
-            Experts en création de sites web, branding et stratégie digitale. 
-            AntaDigital accompagne les entreprises et entrepreneurs ambitieux vers l'excellence numérique.
+            AntaDigital accompagne les entrepreneurs et particuliers francophones vers l'excellence numérique — services digitaux et formations en ligne.
           </p>
 
           {/* CTAs */}

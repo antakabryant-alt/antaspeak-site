@@ -35,14 +35,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [location]);
 
   const isActive = (path: string) => {
-    const current = location.pathname;
-    if (path === '/') return current === '/';
+    const currentPath = location.pathname;
+    const currentHash = location.hash;
+    
+    // Pour la page d'accueil, elle n'est active que s'il n'y a pas de hash actif pour une autre section
+    if (path === '/') return currentPath === '/' && (!currentHash || currentHash === '');
+    
+    // Si le lien est une ancre (ex: /#antacademy), on vérifie le hash
+    if (path.includes('#')) {
+      const hashPart = path.substring(path.indexOf('#'));
+      return currentHash === hashPart;
+    }
     
     // Gestion des pages orphelines ou sous-catégories spécifiques
-    if (path === '/services' && (current === '/logos' || current.startsWith('/services'))) return true;
-    if (path === '/portfolio' && current === '/cv-designs') return true;
+    if (path === '/services' && (currentPath === '/logos' || currentPath.startsWith('/services'))) return true;
+    if (path === '/portfolio' && currentPath === '/cv-designs') return true;
     
-    return current.startsWith(path);
+    return currentPath.startsWith(path);
   };
 
   return (
