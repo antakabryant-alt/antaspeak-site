@@ -1,4 +1,4 @@
-const CACHE_NAME = 'antadigital-cache-v1';
+const CACHE_NAME = 'antadigital-cache-v3';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -15,62 +15,58 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting(); // Force the new service worker to activate immediately
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
+        console.log('Opened cache v3');
         return cache.addAll(urlsToCache);
       })
   );
 });
 
 self.addEventListener('fetch', event => {
+  // Use Network First strategy for document/navigation requests (HTML files)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Use Stale-While-Revalidate for other requests
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+    caches.match(event.request).then(cachedResponse => {
+      const networkFetch = fetch(event.request).then(response => {
+        // update the cache with a clone of the network response
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
         }
-        return fetch(event.request).then(
-          function(response) {
-            // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
+        return response;
+      }).catch(err => {
+        console.error('Network request failed', err);
+      });
 
-            // IMPORTANT: Clone the response. A response is a stream
-            // and because we want the browser to consume the response
-            // as well as the cache consuming the response, we need
-            // to clone it so we have two streams.
-            var responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                // Only cache GET requests
-                if (event.request.method === 'GET') {
-                  cache.put(event.request, responseToCache);
-                }
-              });
-
-            return response;
-          }
-        );
-      })
+      // return cached response immediately if available, otherwise wait for network
+      return cachedResponse || networkFetch;
+    })
   );
 });
 
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheNames.indexOf(cacheName) === -1) {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
